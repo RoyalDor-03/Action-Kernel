@@ -1,4 +1,4 @@
-##警告⚠！！
+## 警告⚠！！
 这只是一个fork仓库，请自行去fork官方储存库！！！
 目前仅有OnePlus Ace2/11r的构建
 [![Build KernelSU Next SUSFS](https://github.com/TanakaLun/Action-KernelSU-Next/actions/workflows/Build-KernelSU-Next-SUSFS.yml/badge.svg)](https://github.com/TanakaLun/Action-KernelSU-Next/actions/workflows/Build-KernelSU-Next-SUSFS.yml)
