@@ -54,18 +54,13 @@ jobs:
          chmod a+x ~/repo
          sudo mv ~/repo /usr/local/bin/repo
 
-      - name: Initialize repo and sync
+      - name: Initialize repo 和 sync
         run: |
          mkdir kernel_workspace && cd kernel_workspace
          repo init -u https://github.com/OnePlusOSS/kernel_manifest.git -b refs/heads/oneplus/${{ github.event.inputs.CPU }} -m ${{ github.event.inputs.FEIL }}.xml --depth=1
-         repo sync
-         repo sync -c -j$(nproc --all)
-         if [ -f kernel_platform/common/android/abi_gki_protected_exports_* ]; then
-         rm kernel_platform/common/android/abi_gki_protected_exports_*
-     fi
-         if [ -f kernel_platform/msm-kernel/android/abi_gki_protected_exports_* ]; then
-         rm kernel_platform/msm-kernel/android/abi_gki_protected_exports_*
-     fi
+         repo sync         
+         find kernel_platform/common/android/ -name "abi_gki_protected_exports_*" -delete
+         find kernel_platform/msm-kernel/android/ -name "abi_gki_protected_exports_*" -delete
          sed -i 's/ -dirty/ -Mortis/g' kernel_platform/common/scripts/setlocalversion
          sed -i 's/ -dirty/ -Mortis/g' kernel_platform/msm-kernel/scripts/setlocalversion   
          
@@ -127,8 +122,8 @@ jobs:
          git clone https://github.com/Kernel-SU/AnyKernel3 --depth=1
          rm -rf ./AnyKernel3/.git
          cp kernel_workspace/kernel_platform/out/msm-${{ github.event.inputs.CPUD }}-${{ github.event.inputs.CPUD }}-gki/dist/Image ./AnyKernel3/
-         sed -i '$a\/data/adb/ksud module install $AKHOME/ksu_module_susfs_1.5.2+.zip' anykernel.sh
-         sed -i '$a\pm uninstall me.weishu.kernelsu' anykernel.sh
+         sed -i '$a\/data/adb/ksud module install $AKHOME/ksu_module_susfs_1.5.2+.zip' ./AnyKernel3/anykernel.sh
+         sed -i '$a\pm uninstall me.weishu.kernelsu' ./AnyKernel3/anykernel.sh
       
       - name: Download SUSFS Module
         run: |
