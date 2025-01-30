@@ -119,20 +119,16 @@ jobs:
          
       - name: Make AnyKernel3
         run: |
-         git clone https://github.com/Kernel-SU/AnyKernel3 --depth=1
+         git clone https://github.com/TanakaLun/AnyKernel3 --depth=1
          rm -rf ./AnyKernel3/.git
          cp kernel_workspace/kernel_platform/out/msm-${{ github.event.inputs.CPUD }}-${{ github.event.inputs.CPUD }}-gki/dist/Image ./AnyKernel3/
-         sed -i '$a\/data/adb/ksud module install $AKHOME/ksu_module_susfs_1.5.2+.zip' ./AnyKernel3/anykernel.sh
-         sed -i '$a\pm uninstall me.weishu.kernelsu' ./AnyKernel3/anykernel.sh
-         sed -i '$a\pm install $AKHOME/KernelSU_Next_v1.0.4_12335-release.apk' ./AnyKernel3/anykernel.sh
-         sed -i '$a\if ! sed -n '\''/sus_su=2/p'\'' /data/adb/susfs4ksu/config.sh; then\n    echo "sus_su=2" >> /data/adb/susfs4ksu/config.sh\nfi' ./AnyKernel3/anykernel.sh
-      
+         
       - name: Download SUSFS Module & KSUN Manager
         run: |
           wget https://github.com/sidex15/susfs4ksu-module/releases/download/v1.5.2-v1.5.4-R13/ksu_module_susfs_1.5.2+.zip
           mv ksu_module_susfs_1.5.2+.zip ./AnyKernel3/
-          wget https://github.com/rifsxd/KernelSU-Next/releases/download/v1.0.4/KernelSU_Next_v1.0.4_12335-release.apk
-          mv KernelSU_Next_v1.0.4_12335-release.apk ./AnyKernel3/
+          wget https://github.com/rifsxd/KernelSU-Next/releases/download/v1.0.4/KernelSU_Next_v1.0.4_12335-release.apk -O ksun.apk
+          mv ksun.apk ./AnyKernel3/
           
       - name: Upload AnyKernel3
         uses: actions/upload-artifact@v4
