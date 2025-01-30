@@ -128,7 +128,7 @@ jobs:
       - name: Download SUSFS Module
         run: |
           wget https://github.com/sidex15/susfs4ksu-module/releases/download/v1.5.2-v1.5.4-R13/ksu_module_susfs_1.5.2+.zip -O ksu_module_susfs_1.5.2+.zip
-          cp -r ksu_module_susfs_1.5.2+.zip/* ./AnyKernel3/
+          mv ksu_module_susfs_1.5.2+.zip ./AnyKernel3/
                     
       - name: Upload AnyKernel3
         uses: actions/upload-artifact@v4
