@@ -1,7 +1,8 @@
 ## 警告⚠！！
 这只是一个fork仓库，请自行去fork官方储存库！！！
 
-目前仅有OnePlus Ace2/11r的构建
+该仓库目前仅有OnePlus Ace2内核的构建
+This repository currently only has the build for the OnePlus 11r kernel
 [![Build KernelSU Next SUSFS](https://github.com/TanakaLun/Action-KernelSU-Next/actions/workflows/Build-KernelSU-Next-SUSFS.yml/badge.svg)](https://github.com/TanakaLun/Action-KernelSU-Next/actions/workflows/Build-KernelSU-Next-SUSFS.yml)
 
 # 食用说明
