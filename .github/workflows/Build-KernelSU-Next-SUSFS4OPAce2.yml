@@ -125,7 +125,7 @@ jobs:
          sed -i '$a\/data/adb/ksud module install $AKHOME/ksu_module_susfs_1.5.2+.zip' ./AnyKernel3/anykernel.sh
          sed -i '$a\pm uninstall me.weishu.kernelsu' ./AnyKernel3/anykernel.sh
          sed -i '$a\pm install $AKHOME/KernelSU_Next_v1.0.4_12335-release.apk' ./AnyKernel3/anykernel.sh
-         sed -i '$a\echo "sus_su=2" >> /data/adb/susfs4ksu/config.sh' ./AnyKernel3/anykernel.sh
+         sed -i '$a\if ! sed -n '\''/sus_su=2/p'\'' /data/adb/susfs4ksu/config.sh; then\n    echo "sus_su=2" >> /data/adb/susfs4ksu/config.sh\nfi' ./AnyKernel3/anykernel.sh
       
       - name: Download SUSFS Module & KSUN Manager
         run: |
