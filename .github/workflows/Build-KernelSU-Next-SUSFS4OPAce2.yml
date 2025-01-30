@@ -40,8 +40,8 @@ jobs:
           
       - name: Configure Git
         run: |
-         git config --global user.name "TanakaLun"
-         git config --global user.email "2709410138@qq.com"
+         git config --global user.name "build"
+         git config --global user.email "3436378798@qq.com"
 
       - name: Install dependencies
         run: |
@@ -59,10 +59,15 @@ jobs:
          mkdir kernel_workspace && cd kernel_workspace
          repo init -u https://github.com/OnePlusOSS/kernel_manifest.git -b refs/heads/oneplus/${{ github.event.inputs.CPU }} -m ${{ github.event.inputs.FEIL }}.xml --depth=1
          repo sync
-         rm kernel_platform/common/android/abi_gki_protected_exports_* || echo "No protected exports!"
-         rm kernel_platform/msm-kernel/android/abi_gki_protected_exports_* || echo "No protected exports!"
+         repo sync -c -j$(nproc --all)
+         if [ -f kernel_platform/common/android/abi_gki_protected_exports_* ]; then
+         rm kernel_platform/common/android/abi_gki_protected_exports_*
+     fi
+         if [ -f kernel_platform/msm-kernel/android/abi_gki_protected_exports_* ]; then
+         rm kernel_platform/msm-kernel/android/abi_gki_protected_exports_*
+     fi
          sed -i 's/ -dirty/ -Mortis/g' kernel_platform/common/scripts/setlocalversion
-         sed -i 's/ -dirty/ -Mortis/g' kernel_platform/msm-kernel/scripts/setlocalversion
+         sed -i 's/ -dirty/ -Mortis/g' kernel_platform/msm-kernel/scripts/setlocalversion   
          
       - name: Set LTO to THIN
         run: |
@@ -122,13 +127,14 @@ jobs:
          git clone https://github.com/Kernel-SU/AnyKernel3 --depth=1
          rm -rf ./AnyKernel3/.git
          cp kernel_workspace/kernel_platform/out/msm-${{ github.event.inputs.CPUD }}-${{ github.event.inputs.CPUD }}-gki/dist/Image ./AnyKernel3/
+         sed -i '$a\/data/adb/ksud module install $AKHOME/ksu_module_susfs_1.5.2+.zip' anykernel.sh
+         sed -i '$a\pm uninstall me.weishu.kernelsu' anykernel.sh
       
-      - name: Download ksu_module_susfs_1.5.2+.zip
+      - name: Download SUSFS Module
         run: |
-          # 下载最新的 ksu_module_susfs_1.5.2+.zip
-          wget https://github.com/sidex15/susfs4ksu-module/releases/download/latest/ksu_module_susfs_1.5.2+.zip -O ksu_module_susfs_1.5.2+.zip
+          wget https://github.com/sidex15/susfs4ksu-module/releases/download/v1.5.2-v1.5.4-R13/ksu_module_susfs_1.5.2+.zip -O ksu_module_susfs_1.5.2+.zip
           cp -r ksu_module_susfs_1.5.2+.zip/* ./AnyKernel3/
-          
+                    
       - name: Upload AnyKernel3
         uses: actions/upload-artifact@v4
         with:
