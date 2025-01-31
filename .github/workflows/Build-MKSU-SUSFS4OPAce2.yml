@@ -91,7 +91,7 @@ jobs:
 
            # Apply patches
            cd ./KernelSU
-           #sed -i '/bool is_zygote_child = is_zygote(old->security);/d' core_hook.c
+           sed -i '/bool is_zygote_child = is_zygote(old->security);/d' kernel/core_hook.c
            patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
            cd ../common
            patch -p1 < 50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch || true
