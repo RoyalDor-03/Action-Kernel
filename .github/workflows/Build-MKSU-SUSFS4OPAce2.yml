@@ -78,12 +78,12 @@ jobs:
         
       - name: Set up susfs
         run: |
-           cd kernel_workspace
-           ls | while read item; do echo "$item"; done
+           find . -name "core_hook.c"
+           cd kernel_workspace           
            git clone https://gitlab.com/simonpunk/susfs4ksu.git -b gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}
            git clone https://github.com/WildPlusKernel/kernel_patches.git
            cd kernel_platform
-           ls | while read item; do echo "$item"; done
+           find . -name "core_hook.c"
            cp ../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./KernelSU/
            cp ../susfs4ksu/kernel_patches/50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch ./common/
            cp ../susfs4ksu/kernel_patches/fs/* ./common/fs/
@@ -104,7 +104,7 @@ jobs:
       - name: Build kernel
         run: |
          cd kernel_workspace
-         ls | while read item; do echo "$item"; done
+         find . -name "core_hook.c"
          #./kernel_platform/oplus/build/oplus_build_kernel.sh ${{ github.event.inputs.CPUD }} gki
          
       - name: Make AnyKernel3
