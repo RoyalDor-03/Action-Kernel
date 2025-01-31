@@ -74,7 +74,7 @@ jobs:
       - name: Set up MKSU
         run: |
          cd kernel_workspace/kernel_platform
-         curl -LSs "https://raw.githubusercontent.com/5ec1cff/KernelSU/refs/heads/main/kernel/setup.sh" | bash -s next
+         curl -LSs "https://raw.githubusercontent.com/5ec1cff/KernelSU/refs/heads/main/kernel/setup.sh" | bash -
         
       - name: Set up susfs
         run: |
