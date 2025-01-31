@@ -105,7 +105,7 @@ jobs:
         run: |
          cd kernel_workspace
          find . -name "core_hook.c"
-         #./kernel_platform/oplus/build/oplus_build_kernel.sh ${{ github.event.inputs.CPUD }} gki
+         ./kernel_platform/oplus/build/oplus_build_kernel.sh ${{ github.event.inputs.CPUD }} gki
          
       - name: Make AnyKernel3
         run: |
