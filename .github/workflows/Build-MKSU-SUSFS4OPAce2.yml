@@ -105,12 +105,12 @@ jobs:
            #cp ../kernel_patches4mksu/core_hook.c_fix.patch ./
            #patch -p1 --fuzz=3 < ./core_hook.c_fix.patch
            
-           old_umount='try_umount("/data/adb/modules", false, MNT_DETACH);'
-           new_umount='ksu_try_umount("/data/adb/modules", false, MNT_DETACH);'
+           old_umount='try_umount("'
+           new_umount='ksu_try_umount("'
            old_zygote='is_zygote(old->security);'
            new_zygote='ksu_is_zygote(old->security);'
-           sed -i "/ksu_try/! s#$old_umount#$new_umount#g" kernel_workspace/kernel_platform/KernelSU/kernel/core_hook.c
-           sed -i "/ksu_try/! s#$old_zygote#$new_zygote#g" kernel_workspace/kernel_platform/KernelSU/kernel/core_hook.c
+           sed -i "/ksu_try/! s#$old_umount#$new_umount#g" KernelSU/kernel/core_hook.c
+           sed -i "/ksu_try/! s#$old_zygote#$new_zygote#g" KernelSU/kernel/core_hook.c
            
            #cp ../kernel_patches4mksu/selinux.c_fix.patch ./
            #patch -p1 -F 3 < selinux.c_fix.patch
