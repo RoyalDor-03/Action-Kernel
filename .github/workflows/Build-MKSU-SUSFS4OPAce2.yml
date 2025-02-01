@@ -81,16 +81,6 @@ jobs:
            cd kernel_workspace           
            git clone https://gitlab.com/simonpunk/susfs4ksu.git -b gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}
            git clone https://github.com/TanakaLun/kernel_patches4mksu.git
-           FOUND_PATHS=$(find . -type f -name "69_hide_stuff.patch")
-           if [ -n "$FOUND_PATHS" ]; then
-            echo "找到以下文件路径："
-            echo "$FOUND_PATHS"
-            echo "::set-output name=found_paths::$FOUND_PATHS"  # 设置输出变量
-           else
-            echo "未找到文件 69_hide_stuff.patch。"
-           fi
-           echo "找到的文件路径："
-           echo "${{ steps.find-patch.outputs.found_paths }}"
            cd kernel_platform
            cp ../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./KernelSU/
            cp ../susfs4ksu/kernel_patches/50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch ./common/
@@ -99,24 +89,23 @@ jobs:
 
            # Apply patches
            cd ./KernelSU
-           sed -i '/bool is_zygote_child = is_zygote(old->security);/d' kernel/core_hook.c
            patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
            cd ../common
            patch -p1 < 50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch || true
-           cp ../../kernel_patches/69_hide_stuff.patch ./
+           cp ../../kernel_patches4mksu/69_hide_stuff.patch ./
            patch -p1 -F 3 < 69_hide_stuff.patch
            git add -A && git commit -a -m "BUILD Kernel"
            cd ..
            cd ./msm-kernel && git add -A && git commit -a -m "BUILD Kernel"
            cd ..
              
-           cp ../kernel_patches/apk_sign.c_fix.patch ./
+           cp ../kernel_patches4mksu/apk_sign.c_fix.patch ./
            patch -p1 -F 3 < apk_sign.c_fix.patch
              
-           cp ../kernel_patches/core_hook.c_fix.patch ./
+           cp ../kernel_patches4mksu/core_hook.c_fix.patch ./
            patch -p1 --fuzz=3 < ./core_hook.c_fix.patch
            
-           cp ../kernel_patches/selinux.c_fix.patch ./
+           cp ../kernel_patches4mksu/selinux.c_fix.patch ./
            patch -p1 -F 3 < selinux.c_fix.patch
            
       - name: Build kernel
