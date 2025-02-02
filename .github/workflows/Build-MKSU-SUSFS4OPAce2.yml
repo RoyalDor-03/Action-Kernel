@@ -111,15 +111,17 @@ jobs:
            #new_zygote='ksu_is_zygote(old->security);'
            #sed -i "/ksu_try/! s#$old_umount#$new_umount#g" KernelSU/kernel/core_hook.c
            #sed -i "/ksu_try/! s#$old_zygote#$new_zygote#g" KernelSU/kernel/core_hook.c
-           
-           #cp ../kernel_patches4mksu/2core_hook.patch ./
+           #sed -i '979a\#ifndef CONFIG_KSU_SUSFS_SUS_MOUNT' KernelSU/kernel/core_hook.c
+           #sed -i '984a\#endif' KernelSU/kernel/core_hook.c
+           rm KernelSU/kernel/core_hook.c
+           cp ../kernel_patches4mksu/core_hook.c kernel
            #patch -p1 -F 3 < 2core_hook.patch
            #sed -i '954s/^/# /' KernelSU/kernel/core_hook.c
            #cp ../kernel_patches4mksu/selinux.c_fix.patch ./
            #patch -p1 -F 3 < selinux.c_fix.patch
-           cd
-           grep -rnw . -e 'ksu_try_'
-           find . -type f -exec sed -i 's/ksu_try_/try_/g' {} +           
+           #cd
+           #grep -rnw . -e 'ksu_try_'
+           #find . -type f -exec sed -i 's/ksu_try_/try_/g' {} +           
            
       - name: Build kernel
         run: |
