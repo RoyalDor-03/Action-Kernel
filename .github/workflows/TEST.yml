@@ -117,13 +117,13 @@ jobs:
            #cp ../kernel_patches4mksu/selinux.c_fix.patch ./
            #patch -p1 -F 3 < selinux.c_fix.patch
            
-    - name: Package core_hook.c
-      run: |
+      - name: Package core_hook.c
+        run: |
            cd kernel_workspace/kernel_platform/KernelSU/kernel
            zip core_hook.zip core_hook.c
 
-    - name: Upload core_hook.zip as Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: core_hook.zip
-        path: kernel_workspace/kernel_platform/KernelSU/kernel/core_hook.zip
+      - name: Upload core_hook.zip as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+         name: core_hook.zip
+         path: kernel_workspace/kernel_platform/KernelSU/kernel/core_hook.zip
