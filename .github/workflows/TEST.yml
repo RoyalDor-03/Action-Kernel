@@ -112,8 +112,8 @@ jobs:
            sed -i "/ksu_try/! s#$old_umount#$new_umount#g" KernelSU/kernel/core_hook.c
            sed -i "/ksu_try/! s#$old_zygote#$new_zygote#g" KernelSU/kernel/core_hook.c
 
-           cp ../kernel_patches4mksu/2core_hook.patch ./
-           patch -p1 -F 3 < 2core_hook.patch
+           #cp ../kernel_patches4mksu/2core_hook.patch ./
+           #patch -p1 -F 3 < 2core_hook.patch
            #cp ../kernel_patches4mksu/selinux.c_fix.patch ./
            #patch -p1 -F 3 < selinux.c_fix.patch
            
