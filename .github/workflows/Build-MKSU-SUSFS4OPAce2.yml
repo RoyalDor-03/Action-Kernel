@@ -114,7 +114,7 @@ jobs:
            
            #cp ../kernel_patches4mksu/2core_hook.patch ./
            #patch -p1 -F 3 < 2core_hook.patch
-           sed -i '954s/^/# /' core_hook.c
+           sed -i '954s/^/# /' KernelSU/kernel/core_hook.c
            #cp ../kernel_patches4mksu/selinux.c_fix.patch ./
            #patch -p1 -F 3 < selinux.c_fix.patch
            
