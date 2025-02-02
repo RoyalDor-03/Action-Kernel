@@ -120,7 +120,7 @@ jobs:
            
       - name: Build kernel
         run: |
-         sed -i '/pts_unix98_lookup_kp/ s#^#////#' path/to/file.c
+         sed -i '/pts_unix98_lookup_kp/ s#^#////#' kernel_workspace/kernel_platform/common/drivers/kernelsu/sucompat.c
          cd kernel_workspace
          ./kernel_platform/oplus/build/oplus_build_kernel.sh ${{ github.event.inputs.CPUD }} gki
          
