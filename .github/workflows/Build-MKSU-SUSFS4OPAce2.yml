@@ -105,18 +105,21 @@ jobs:
            #cp ../kernel_patches4mksu/core_hook.c_fix.patch ./
            #patch -p1 --fuzz=3 < ./core_hook.c_fix.patch
            
-           old_umount='try_umount("'
-           new_umount='ksu_try_umount("'
-           old_zygote='is_zygote(old->security);'
-           new_zygote='ksu_is_zygote(old->security);'
-           sed -i "/ksu_try/! s#$old_umount#$new_umount#g" KernelSU/kernel/core_hook.c
-           sed -i "/ksu_try/! s#$old_zygote#$new_zygote#g" KernelSU/kernel/core_hook.c
+           #old_umount='try_umount("'
+           #new_umount='ksu_try_umount("'
+           #old_zygote='is_zygote(old->security);'
+           #new_zygote='ksu_is_zygote(old->security);'
+           #sed -i "/ksu_try/! s#$old_umount#$new_umount#g" KernelSU/kernel/core_hook.c
+           #sed -i "/ksu_try/! s#$old_zygote#$new_zygote#g" KernelSU/kernel/core_hook.c
            
            #cp ../kernel_patches4mksu/2core_hook.patch ./
            #patch -p1 -F 3 < 2core_hook.patch
-           sed -i '954s/^/# /' KernelSU/kernel/core_hook.c
+           #sed -i '954s/^/# /' KernelSU/kernel/core_hook.c
            #cp ../kernel_patches4mksu/selinux.c_fix.patch ./
            #patch -p1 -F 3 < selinux.c_fix.patch
+           cd
+           grep -rnw . -e 'ksu_try_'
+           find . -type f -exec sed -i 's/ksu_try_/try_/g' {} +           
            
       - name: Build kernel
         run: |
