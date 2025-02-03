@@ -115,6 +115,7 @@ jobs:
            #sed -i '984a\#endif' KernelSU/kernel/core_hook.c
            rm KernelSU/kernel/core_hook.c
            cp ../kernel_patches4mksu/core_hook.c kernel
+           ls kernel/core_hook.c 
            #patch -p1 -F 3 < 2core_hook.patch
            #sed -i '954s/^/# /' KernelSU/kernel/core_hook.c
            #cp ../kernel_patches4mksu/selinux.c_fix.patch ./
@@ -145,3 +146,9 @@ jobs:
         with:
          name: AnyKernel3_KernelSU_${{ env.KSUVER }}_${{ github.event.inputs.FEIL }}
          path: ./AnyKernel3/*
+
+      - name: Upload core
+        uses: actions/upload-artifact@v4
+        with:
+         name: core_hook.c
+         path: kernel_workspace/kernel_platform/KernelSU/kernel
