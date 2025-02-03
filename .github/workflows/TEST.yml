@@ -33,17 +33,8 @@ jobs:
          git config --global user.name "build"
          git config --global user.email "3436378798@qq.com"
 
-      - name: Install dependencies
-        run: |
-         sudo apt update && sudo apt upgrade -y
-         sudo apt install -y python3 git
-
       - name: Download latest susfs4ksu module
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          LATEST_URL=$(curl -sSLH "Authorization: Bearer $GH_TOKEN" \
-            https://api.github.com/repos/sidex15/susfs4ksu-module/releases/latest \https://api.github.com/repos/sidex15/susfs4ksu-module/releases/latest
-            | jq -r '.assets[] | select(.name | contains("ksu_module_susfs_1.5.2+")) | .browser_download_url')
-          curl -LO "$LATEST_URL"
-          echo "Downloaded file: $(ls ksu_module_susfs_1.5.2+*.zip)"         
+          LATEST_URL=$(curl -sSLH "Authorization: Bearer $GH_TOKEN" \https://api.github.com/repos/sidex15/susfs4ksu-module/releases/latest \ | jq -r '.assets[] | select(.name | contains("ksu_module_susfs_1.5.2+")) | .browser_download_url')
