@@ -37,5 +37,5 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          LATEST_URL=$(curl -sSLH "Authorization: Bearer $GH_TOKEN" \
-          https://api.github.com/repos/sidex15/susfs4ksu-module/releases/latest \ | jq -r '.assets[] | select(.name | contains("ksu_module_susfs_1.5.2+")) | .browser_download_url')
+          curl -sSLH "Authorization: Bearer $GH_TOKEN" \
+            https://api.github.com/repos/sidex15/susfs4ksu-module/releases/latest
