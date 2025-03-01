@@ -71,7 +71,8 @@ jobs:
 
            # Apply patches
            cd ./KernelSU
-           #patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
+           patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
+           patch -p1 --forward < mksu_susfs_fix.patch || true
            #patch -p1 --forward < mksu_susfs.patch || true
            #patch -p1 --forward < fix.patch || true
            cd ../common
