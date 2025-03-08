@@ -251,6 +251,8 @@ jobs:
           
       - name: Upload Release Assets Dynamically
         run: |
+          echo "${{ secrets.TOKEN }}" | gh auth login --with-token
+          ls ./downloaded-artifacts/
           # Loop through all files in the downloaded-artifacts directory
           for file in ./downloaded-artifacts/*; do
               # Skip directories
