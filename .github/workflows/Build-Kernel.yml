@@ -262,5 +262,3 @@ jobs:
               echo "Uploading $file..."
               gh release upload ${{ github.event.inputs.KSU_BRANCH }}-SUSFS $file
           done
-        env:
-            GITHUB_TOKEN: ${{ secrets.TOKEN }}
