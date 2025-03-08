@@ -101,6 +101,7 @@ jobs:
       - name: Add KernelSU
         run: |
           cd kernel_workspace/kernel_platform
+          ls
           echo "KSU is ${{ github.event.inputs.KSU_BRANCH }}"
           if [ "${{ github.event.inputs.KSU_BRANCH }}" == "Next" ]; then
             echo "Adding KernelSU Next..."
