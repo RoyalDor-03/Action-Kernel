@@ -86,6 +86,7 @@ jobs:
          repo sync
          
       - name: Modify kernel version parameters
+        if: ${{ github.event.inputs.SUSFS_ENABLED == 'true' }}
         run: |
          cd kernel_workspace                  
          rm kernel_platform/common/android/abi_gki_protected_exports_* || echo "No protected exports!"
@@ -98,6 +99,7 @@ jobs:
          sed -i '$s|echo "\$res"|echo "$res-Mortis"|' kernel_platform/msm-kernel/scripts/setlocalversion
 
       - name: Add KernelSU
+        if: ${{ github.event.inputs.SUSFS_ENABLED == 'true' }}
         run: |
           cd kernel_workspace/kernel_platform
           echo "KSU is ${{ github.event.inputs.KSU_BRANCH }}"
@@ -118,6 +120,7 @@ jobs:
           fi
                  
       - name: Set up susfs
+        if: ${{ github.event.inputs.SUSFS_ENABLED == 'true' }}
         run: |
            cd kernel_workspace
            git clone https://gitlab.com/simonpunk/susfs4ksu.git -b gki-android${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}
@@ -157,12 +160,14 @@ jobs:
             cd ..
            
       - name: Apply Hide Stuff Patches
+        if: ${{ github.event.inputs.SUSFS_ENABLED == 'true' }}
         run: |
           cd kernel_workspace/kernel_platform/common
           cp ../../kernel_patches4mksu/69_hide_stuff.patch ./
           patch -p1 -F 3 < 69_hide_stuff.patch
                      
       - name: Apply New Hooks Patches
+        if: ${{ github.event.inputs.SUSFS_ENABLED == 'true' }}
         run: |
           cd kernel_workspace/kernel_platform/common
           # Apply additional patch
@@ -208,7 +213,8 @@ jobs:
           # Remove check_defconfig
           sed -i 's/check_defconfig//' ./common/build.config.gki
                               
-      - name: Build kernel 
+      - name: Build kernel
+        if: ${{ github.event.inputs.SUSFS_ENABLED == 'true' }}
         run: |
          cd kernel_workspace
          if [ -f "./kernel_platform/build_with_bazel.py" ]; then
@@ -224,13 +230,13 @@ jobs:
             IMAGE_PATH="kernel_workspace/kernel_platform/out/msm-${{ github.event.inputs.CPUD }}-${{ github.event.inputs.CPUD }}-gki/dist/Image"
             ALTERNATE_IMAGE_PATH="kernel_workspace/kernel_platform/out/msm-kernel-${{ github.event.inputs.CPUD }}-gki/dist/Image"
             DESTINATION_PATH="./AnyKernel3/"
-            if [ -f "$IMAGE_PATH" ]; then
-                cp "$IMAGE_PATH" "$DESTINATION_PATH"
-            elif [ -f "$ALTERNATE_IMAGE_PATH" ]; then
-                cp "$ALTERNATE_IMAGE_PATH" "$DESTINATION_PATH"
-            else
-                exit 1
-            fi
+            #if [ -f "$IMAGE_PATH" ]; then
+            #    cp "$IMAGE_PATH" "$DESTINATION_PATH"
+            #elif [ -f "$ALTERNATE_IMAGE_PATH" ]; then
+            #    cp "$ALTERNATE_IMAGE_PATH" "$DESTINATION_PATH"
+            #else
+            #    exit 1
+            #fi
                    
       - name: Download SUSFS Module
         run: |
@@ -238,6 +244,7 @@ jobs:
          cp ksu_module_susfs_1.5.2+.zip ./AnyKernel3/
 
       - name: Upload AnyKernel3
+        if: ${{ github.event.inputs.SUSFS_ENABLED == 'true' }}
         uses: actions/upload-artifact@v4
         with:
          name: ${{ github.event.inputs.KSU_BRANCH }} _${{ github.event.inputs.FEIL }}_${{ env.KSUVER }}
@@ -246,7 +253,9 @@ jobs:
       - name: Package AnyKernel3
         run: |
           cd ./AnyKernel3
+          ls
           zip -r ${{ github.event.inputs.KSU_BRANCH }} _${{ github.event.inputs.FEIL }}_${{ env.KSUVER }}.zip ./*
+          ls
           cd ..
 
       - name: Get Release Upload URL
