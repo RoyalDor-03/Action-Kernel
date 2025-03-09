@@ -249,12 +249,12 @@ jobs:
         if: ${{ github.event.inputs.SUSFS_ENABLED == 'true' }}
         uses: actions/upload-artifact@v4
         with:
-         name: ${{ github.event.inputs.KSU_BRANCH }} _${{ github.event.inputs.FEIL }}_${{ env.KSUVER }}
+         name: ${{ github.event.inputs.KSU_BRANCH }}_${{ github.event.inputs.FEIL }}_${{ env.KSUVER }}
          path: ./AnyKernel3/*
          
       - name: Package AnyKernel3
         run: |
-          zip -r ${{ github.event.inputs.KSU_BRANCH }} _${{ github.event.inputs.FEIL }}_${{ env.KSUVER }} ./AnyKernel3/*
+          zip -r ${{ github.event.inputs.KSU_BRANCH }}_${{ github.event.inputs.FEIL }}_${{ env.KSUVER }}.zip ./AnyKernel3/*
 
       - name: Get Release Upload URL
         id: get_release
@@ -273,6 +273,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           upload_url: ${{ env.UPLOAD_URL }}
-          asset_path: ./AnyKernel3/${{ github.event.inputs.KSU_BRANCH }} _${{ github.event.inputs.FEIL }}_${{ env.KSUVER }}.zip
-          asset_name: ${{ github.event.inputs.KSU_BRANCH }} _${{ github.event.inputs.FEIL }}_${{ env.KSUVER }}.zip
+          asset_path: ./AnyKernel3/${{ github.event.inputs.KSU_BRANCH }}_${{ github.event.inputs.FEIL }}_${{ env.KSUVER }}.zip
+          asset_name: ${{ github.event.inputs.KSU_BRANCH }}_${{ github.event.inputs.FEIL }}_${{ env.KSUVER }}.zip
           asset_content_type: application/zip
