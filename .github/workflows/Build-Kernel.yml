@@ -244,23 +244,29 @@ jobs:
          name: ${{ github.event.inputs.KSU_BRANCH }} _${{ github.event.inputs.FEIL }}_${{ env.KSUVER }}
          path: ./AnyKernel3/*
          
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: ./downloaded-artifacts
-          
-      - name: Upload Release Assets Dynamically
+      - name: Package AnyKernel3
         run: |
-          echo "${{ secrets.TOKEN }}" | gh auth login --with-token
-          ls ./downloaded-artifacts/
-          # Loop through all files in the downloaded-artifacts directory
-          for file in ./downloaded-artifacts/*; do
-              # Skip directories
-              if [ -d "$file" ]; then
-                  continue
-              fi
+          cd ./AnyKernel3
+          zip -r ${{ github.event.inputs.KSU_BRANCH }} _${{ github.event.inputs.FEIL }}_${{ env.KSUVER }}.zip ./*
+          cd ..
 
-              # Upload the file to the GitHub release
-              echo "Uploading $file..."
-              gh release upload ${{ github.event.inputs.KSU_BRANCH }}-SUSFS $file
-          done
+      - name: Get Release Upload URL
+        id: get_release
+        run: |
+          RELEASE_TAG="${{ github.event.inputs.KSU_BRANCH }}-SUSFS"
+          UPLOAD_URL=$(curl -s \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: Bearer ${{ secrets.TOKEN }}" \
+            "https://api.github.com/repos/TanakaLun/Action-Kernel/releases/tags/$RELEASE_TAG" \
+            | jq -r '.upload_url' | sed 's/{.*}//')
+          echo "UPLOAD_URL=$UPLOAD_URL" >> $GITHUB_ENV
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ env.UPLOAD_URL }}
+          asset_path: ./AnyKernel3/${{ github.event.inputs.KSU_BRANCH }} _${{ github.event.inputs.FEIL }}_${{ env.KSUVER }}.zip
+          asset_name: ${{ github.event.inputs.KSU_BRANCH }} _${{ github.event.inputs.FEIL }}_${{ env.KSUVER }}.zip
+          asset_content_type: application/zip
