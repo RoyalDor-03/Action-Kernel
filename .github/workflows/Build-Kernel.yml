@@ -252,11 +252,7 @@ jobs:
          
       - name: Package AnyKernel3
         run: |
-          cd ./AnyKernel3
-          ls
-          zip -r ${{ github.event.inputs.KSU_BRANCH }} _${{ github.event.inputs.FEIL }}_${{ env.KSUVER }}.zip ./*
-          ls
-          cd ..
+          zip -r ${{ github.event.inputs.KSU_BRANCH }} _${{ github.event.inputs.FEIL }}_${{ env.KSUVER }}.zip ./AnyKernel3/*
 
       - name: Get Release Upload URL
         id: get_release
