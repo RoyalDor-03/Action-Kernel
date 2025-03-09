@@ -74,12 +74,14 @@ jobs:
          sudo apt install -y python3 git curl
 
       - name: Install repo tool
+        if: ${{ github.event.inputs.SUSFS_ENABLED == 'true' }}
         run: |
          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/repo
          chmod a+x ~/repo
          sudo mv ~/repo /usr/local/bin/repo
          
       - name: Initialize repo and sync
+        if: ${{ github.event.inputs.SUSFS_ENABLED == 'true' }}
         run: |
          mkdir kernel_workspace && cd kernel_workspace
          repo init -u https://github.com/OnePlusOSS/kernel_manifest.git -b refs/heads/oneplus/${{ github.event.inputs.CPU }} -m ${{ github.event.inputs.FEIL }}.xml --depth=1
