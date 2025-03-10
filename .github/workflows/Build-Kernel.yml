@@ -164,9 +164,18 @@ jobs:
       - name: Apply New Hooks Patches
         run: |
           cd kernel_workspace/kernel_platform/common
-          # Apply additional patch
-          cp ../../kernel_patches4mksu/hooks/new_hooks.patch ./
-          patch -p1 -F 3 < new_hooks.patch
+          if [ "${{ github.event.inputs.KSU_BRANCH }}" == "KSUN" ]; then
+             echo "Applying syscall hooks patch patches for KernelSU-Next..."
+             cp ../../kernel_patches4mksu/next/syscall_hooks.patch ./
+             patch -p1 --forward < syscall_hooks.patch || true
+           elif [ "${{ github.event.inputs.KSU_BRANCH }}" == "MKSU" ]; then
+             echo "Applying SUSFS patches for MKSU..."
+             cp ../../kernel_patches4mksu/hooks/new_hooks.patch ./
+             patch -p1 -F 3 < new_hooks.patch
+           else
+             echo "Invalid KernelSU variant selected!"
+             exit 1
+           fi
           
       - name: Add SUSFS Configuration Settings
         if: ${{ github.event.inputs.SUSFS_ENABLED == 'true' }}
