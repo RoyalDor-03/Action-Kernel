@@ -122,6 +122,8 @@ jobs:
            git clone https://gitlab.com/simonpunk/susfs4ksu.git -b gki-android${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}
            git clone https://github.com/TanakaLun/kernel_patches4mksu.git
            cd kernel_platform
+           cp ../kernel_patches4mksu/oneplus/001-lz4.patch ./common/
+           cp ../kernel_patches4mksu/oneplus/002-zstd.patch ./common/
            cp ../susfs4ksu/kernel_patches/50_add_susfs_in_gki-android${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch ./common/
            cp ../susfs4ksu/kernel_patches/fs/* ./common/fs/
            cp ../susfs4ksu/kernel_patches/include/linux/* ./common/include/linux/
@@ -149,7 +151,9 @@ jobs:
              exit 1
            fi
             cd ../common
-            patch -p1 < 50_add_susfs_in_gki-android${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch || true           
+            patch -p1 < 50_add_susfs_in_gki-android${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch || true
+            patch -p1 < 001-lz4.patch
+            patch -p1 < 002-zstd.patch
             git add -A && git commit -a -m "BUILD Kernel"
             cd ..
             cd ./msm-kernel && git add -A && git commit -a -m "BUILD Kernel"
