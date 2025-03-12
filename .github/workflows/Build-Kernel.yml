@@ -152,8 +152,8 @@ jobs:
            fi
             cd ../common
             patch -p1 < 50_add_susfs_in_gki-android${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch || true
-            patch -p1 < 001-lz4.patch || true
-            patch -p1 < 002-zstd.patch || true
+           # patch -p1 < 001-lz4.patch || true
+           # patch -p1 < 002-zstd.patch || true
             git add -A && git commit -a -m "BUILD Kernel"
             cd ..
             cd ./msm-kernel && git add -A && git commit -a -m "BUILD Kernel"
@@ -208,15 +208,6 @@ jobs:
           echo "CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_KSU_SUSFS_OPEN_REDIRECT=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_KSU_SUSFS_SUS_SU=n" >> ./common/arch/arm64/configs/gki_defconfig          
-          # Add additional tmpfs config setting
-          # echo "CONFIG_TMPFS_XATTR=y" >> ./common/arch/arm64/configs/gki_defconfig
-          # echo "CONFIG_TMPFS_POSIX_ACL=y" >> ./common/arch/arm64/configs/gki_defconfig
-
-          # # Add additional config setting
-          # echo "CONFIG_IP_NF_TARGET_TTL=y" >> ./common/arch/arm64/configs/gki_defconfig
-          # echo "CONFIG_IP6_NF_TARGET_HL=y" >> ./common/arch/arm64/configs/gki_defconfig
-          # echo "CONFIG_IP6_NF_MATCH_HL=y" >> ./common/arch/arm64/configs/gki_defconfig
-
           # Remove check_defconfig
           sed -i 's/check_defconfig//' ./common/build.config.gki
                               
