@@ -152,8 +152,8 @@ jobs:
            fi
             cd ../common
             patch -p1 < 50_add_susfs_in_gki-android${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch || true
-            patch -p1 < 001-lz4.patch
-            patch -p1 < 002-zstd.patch
+            patch -p1 < 001-lz4.patch || true
+            patch -p1 < 002-zstd.patch || true
             git add -A && git commit -a -m "BUILD Kernel"
             cd ..
             cd ./msm-kernel && git add -A && git commit -a -m "BUILD Kernel"
