@@ -186,7 +186,7 @@ jobs:
         run: |
           cd kernel_workspace/kernel_platform
           if [ "${{ github.event.inputs.KSU_BRANCH }}" == "MKSU" ]; then
-            cp ../../kernel_patches4mksu/mksu/vfs_fix.patch ./KernelSU/
+            cp ../kernel_patches4mksu/mksu/vfs_fix.patch ./KernelSU/
             cd ./KernelSU
             patch -p1 < vfs_fix.patch
             cd ../
