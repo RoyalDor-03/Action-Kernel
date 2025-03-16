@@ -103,23 +103,24 @@ jobs:
           cd kernel_workspace/kernel_platform
           if [ "${{ github.event.inputs.KSU_BRANCH }}" == "KSUN" ]; then
             echo "Adding KernelSU Next..."
-            curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash
-            cd ./KernelSU-Next
-            KSU_VERSION=$(expr $(/usr/bin/git rev-list --count HEAD) "+" 10200)
-            echo "KSUVER=$KSU_VERSION" >> $GITHUB_ENV
-            sed -i "s/DKSU_VERSION=11998/DKSU_VERSION=${KSU_VERSION}/" kernel/Makefile         
+            curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash         
           elif [ "${{ github.event.inputs.KSU_BRANCH }}" == "MKSU" ]; then
-            echo "Adding KernelSU MKSU..."
+            echo "Adding MKSU..."
             curl -LSs "https://raw.githubusercontent.com/5ec1cff/KernelSU/main/kernel/setup.sh" | bash
           elif [ "${{ github.event.inputs.kernelsu_variant }}" == "SKSU" ]; then
             curl -LSs "https://raw.githubusercontent.com/ShirkNeko/KernelSU/main/kernel/setup.sh" | bash -s susfs-dev 
           fi
-          if [ "${{ github.event.inputs.kernelsu_variant }}" != "Next" ]; then
-            cd ./KernelSU-Next
+          if [ "${{ github.event.inputs.kernelsu_variant }}" = "Next" ]; then
+            DKSUVER=11998
+            KSUD=KernelSU-Next
+          else
+            DKSUBER=16
+            KSUD=KernelSU
+          fi
+            cd ./$KSUD
             KSU_VERSION=$(expr $(/usr/bin/git rev-list --count HEAD) "+" 10200)
             echo "KSUVER=$KSU_VERSION" >> $GITHUB_ENV
-            sed -i "s/DKSU_VERSION=16/DKSU_VERSION=${KSU_VERSION}/" kernel/Makefile
-          fi
+            sed -i "s/DKSU_VERSION=$DKSUVER/DKSU_VERSION=${KSU_VERSION}/" kernel/Makefile
                  
       - name: Set up susfs
         run: |
