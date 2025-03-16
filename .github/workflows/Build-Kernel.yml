@@ -232,8 +232,8 @@ jobs:
          git clone https://github.com/TanakaLun/AnyKernel3 --depth=1
          rm -rf ./AnyKernel3/.git
          IMAGE_DIR="kernel_workspace/kernel_platform/out"
-AK3_DIR="./AnyKernel3"
-find "$IMAGE_DIR" -type f -name "Image" -exec cp {} "$AK3_DIR" \;
+         AK3_DIR="./AnyKernel3"
+         find "$IMAGE_DIR" -type f -name "Image" -exec cp {} "$AK3_DIR" \;
                    
       - name: Download SUSFS Module
         run: |
