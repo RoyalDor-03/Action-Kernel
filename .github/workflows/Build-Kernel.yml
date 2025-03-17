@@ -213,7 +213,7 @@ jobs:
           echo "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_KSU_SUSFS_SUS_KSTAT=y" >> ./common/arch/arm64/configs/gki_defconfig
-          #echo "CONFIG_KSU_SUSFS_SUS_OVERLAYFS=n" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_KSU_SUSFS_SUS_OVERLAYFS=n" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_KSU_SUSFS_TRY_UMOUNT=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_KSU_SUSFS_SPOOF_UNAME=y" >> ./common/arch/arm64/configs/gki_defconfig
@@ -228,12 +228,12 @@ jobs:
       - name: Build kernel 
         run: |
          cd kernel_workspace
-         if [ -f "./kernel_platform/build_with_bazel.py" ]; then
-          echo "build_with_bazel.py"
-          ./kernel_platform/build_with_bazel.py -t ${{ github.event.inputs.CPUD }} gki
-         else
+         #if [ -f "./kernel_platform/build_with_bazel.py" ]; then
+          #echo "build_with_bazel.py"
+          #./kernel_platform/build_with_bazel.py -t ${{ github.event.inputs.CPUD }} gki
+         #else
           LTO=thin ./kernel_platform/oplus/build/oplus_build_kernel.sh ${{ github.event.inputs.CPUD }} gki
-         fi
+         #fi
 
       - name: Make AnyKernel3
         run: |
