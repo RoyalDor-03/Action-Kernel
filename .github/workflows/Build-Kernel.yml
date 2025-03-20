@@ -21,15 +21,7 @@ on:
       FEIL:
         description: "机型/Model"
         required: true
-        type: choice
-        options:
-          - oneplus_ace3_pro_v
-          - oneplus_pad2_v
-          - oneplus_ace5
-          - oneplus_13r
-          - oneplus12_v
-          - oneplus_11r_v
-          - oneplus_ace2_v
+        default: 'oneplus_ace2_v'
       KSU_BRANCH:
         description: "KSU分支"
         required: true
